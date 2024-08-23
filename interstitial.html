@@ -23,19 +23,25 @@
     <a id="continueLink" href="#" class="hidden">Continue</a>
 
     <script>
-        function simpleDecrypt(str) {
-            return decodeURIComponent(escape(atob(str)));
-        }
-
+        // Simulate ad delay (e.g., 5 seconds)
         setTimeout(function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const encryptedLink = urlParams.get('link');
-            const targetLink = simpleDecrypt(encryptedLink);
+            const id = urlParams.get('id');
 
-            document.getElementById('continueMessage').classList.remove('hidden');
-            const continueLink = document.getElementById('continueLink');
-            continueLink.href = targetLink;
-            continueLink.classList.remove('hidden');
+            // Fetch the target URL from a static JSON file
+            fetch('links.json')
+                .then(response => response.json())
+                .then(data => {
+                    const targetLink = data[id];
+                    if (targetLink) {
+                        document.getElementById('continueMessage').classList.remove('hidden');
+                        const continueLink = document.getElementById('continueLink');
+                        continueLink.href = targetLink;
+                        continueLink.classList.remove('hidden');
+                    } else {
+                        alert("Invalid ID");
+                    }
+                });
         }, 5000);  // 5-second delay
     </script>
 </body>
