@@ -17,52 +17,43 @@
 </head>
 <body>
     <h1>Advertisement</h1>
-    <p>Watch this ad before proceeding to your link.</p>
-    <div id="adPlaceholder">[Your Ad Here]</div>
-    <p id="continueMessage" class="hidden">You can now continue to your link:</p>
+    <p>Watch this ad and subscribe to our channel before proceeding to your link.</p>
+    
+    <!-- Button to open the channel -->
+    <button id="subscribeButton">Subscribe to our YouTube Channel</button>
+
+    <!-- After subscribing -->
+    <p id="continueMessage" class="hidden">Thank you for subscribing! You can now continue to your link:</p>
     <a id="continueLink" href="#" class="hidden">Continue</a>
 
     <script>
-        // Simulate ad delay (e.g., 5 seconds)
+        document.getElementById('subscribeButton').addEventListener('click', function() {
+            // Open the YouTube channel in a new tab
+            window.open('https://youtube.com/@yabes_ch.?si=7-js2OPIBghtxMhC', '_blank');
+
+            // Simulate that the user has subscribed and now can continue
+            setTimeout(function() {
+                document.getElementById('continueMessage').classList.remove('hidden');
+                document.getElementById('continueLink').classList.remove('hidden');
+                document.getElementById('subscribeButton').classList.add('hidden');
+            }, 5000); // 5-second delay to simulate subscribing
+        });
+
         setTimeout(function() {
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
 
-            // Debug: Log the ID we got from the URL
-            console.log("ID from URL:", id);
-
-            if (!id) {
-                alert("No ID found in URL");
-                return;
-            }
-
-            // Fetch the target URL from a static JSON file
             fetch('links.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    // Debug: Log the content of the JSON file
-                    console.log("Data from JSON:", data);
-
                     const targetLink = data[id];
                     if (targetLink) {
-                        document.getElementById('continueMessage').classList.remove('hidden');
-                        const continueLink = document.getElementById('continueLink');
-                        continueLink.href = targetLink;
-                        continueLink.classList.remove('hidden');
+                        document.getElementById('continueLink').href = targetLink;
                     } else {
                         alert("Invalid ID");
                     }
-                })
-                .catch(error => {
-                    console.error('Error fetching or processing JSON:', error);
-                    alert("Failed to load data. Please try again later.");
                 });
-        }, 5000);  // 5-second delay
+        }, 1000);  // Load the link right after the page is ready
     </script>
 </body>
 </html>
