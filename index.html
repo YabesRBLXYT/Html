@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Monetizer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .link-form {
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Monetize Your Link</h1>
+    <form class="link-form" id="linkForm">
+        <label for="url">Enter URL:</label><br>
+        <input type="text" id="url" name="url" required><br><br>
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description"><br><br>
+        <input type="submit" value="Generate Link">
+    </form>
+
+    <div id="generatedLinkContainer" class="hidden">
+        <h2>Your monetized link:</h2>
+        <a id="generatedLink" href="#">Click here</a>
+    </div>
+
+    <script>
+        function simpleEncrypt(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        document.getElementById('linkForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const url = document.getElementById('url').value;
+            const encryptedUrl = simpleEncrypt(url);
+
+            const generatedLink = `interstitial.html?link=${encodeURIComponent(encryptedUrl)}`;
+            const linkElement = document.getElementById('generatedLink');
+            linkElement.href = generatedLink;
+            linkElement.textContent = generatedLink;
+
+            document.getElementById('generatedLinkContainer').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

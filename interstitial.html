@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interstitial Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advertisement</h1>
+    <p>Watch this ad before proceeding to your link.</p>
+    <div id="adPlaceholder">[Your Ad Here]</div>
+    <p id="continueMessage" class="hidden">You can now continue to your link:</p>
+    <a id="continueLink" href="#" class="hidden">Continue</a>
+
+    <script>
+        function simpleDecrypt(str) {
+            return decodeURIComponent(escape(atob(str)));
+        }
+
+        setTimeout(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const encryptedLink = urlParams.get('link');
+            const targetLink = simpleDecrypt(encryptedLink);
+
+            document.getElementById('continueMessage').classList.remove('hidden');
+            const continueLink = document.getElementById('continueLink');
+            continueLink.href = targetLink;
+            continueLink.classList.remove('hidden');
+        }, 5000);  // 5-second delay
+    </script>
+</body>
+</html>
