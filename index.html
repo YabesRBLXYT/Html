@@ -34,17 +34,20 @@
     </div>
 
     <script>
-        function simpleEncrypt(str) {
-            return btoa(unescape(encodeURIComponent(str)));
-        }
-
         document.getElementById('linkForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
             const url = document.getElementById('url').value;
-            const encryptedUrl = simpleEncrypt(url);
+            const description = document.getElementById('description').value;
 
-            const generatedLink = `interstitial.html?link=${encodeURIComponent(encryptedUrl)}`;
+            // Simple ID generation (in practice, use a more robust method)
+            const id = Math.random().toString(36).substr(2, 9);
+
+            // Storing link data in the 'links.json' file would typically require a server.
+            // For GitHub Pages, you can manually add the URL to the links.json file or use
+            // a static list for demonstration.
+
+            const generatedLink = `interstitial.html?id=${id}`;
             const linkElement = document.getElementById('generatedLink');
             linkElement.href = generatedLink;
             linkElement.textContent = generatedLink;
@@ -53,4 +56,5 @@
         });
     </script>
 </body>
-</html>
+    </html>
+    
